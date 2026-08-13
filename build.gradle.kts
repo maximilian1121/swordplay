@@ -35,8 +35,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
-val productionResources = sourceSets.create("production") {
-    resources.srcDir("src/production/resources")
+val productionResources = sourceSets.create("production")
+
+tasks.named<Copy>("processProductionResources") {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.shadowJar {
