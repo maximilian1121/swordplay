@@ -25,7 +25,7 @@ public class SwordFight {
         BUNGEE
     }
 
-    void main(String[] args) throws URISyntaxException, IOException {
+    void main(String[] args) {
         logger.debug("Parsing command line arguments: {}", String.join(" ", args));
 
         ArgumentParser parser = ArgumentParsers.newFor("Sword fight").build();
