@@ -8,8 +8,6 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven("https://repo.viaversion.com")
-    maven("https://repo.unnamed.team/repository/unnamed-public/")
 }
 
 dependencies {
