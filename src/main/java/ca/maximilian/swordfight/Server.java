@@ -50,22 +50,13 @@ import net.minestom.server.world.DimensionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.jar.JarFile;
 
 import static ca.maximilian.swordfight.Game.GameFunctions.isCrippled;
 
@@ -463,10 +454,23 @@ public class Server {
             player.setRespawnPoint(GameConstants.SPAWN_POINT);
             player.setGameMode(GameMode.ADVENTURE);
 
+            String url = "https://files.latific.click/file/5b1f71d3-4a4d-4153-a96d-f4cc79566e41.zip";
+
+            String hash;
+
+            try {
+                hash = ResourceHashUtil.fetchSHA1(url);
+            } catch (Exception e) {
+                logger.warn("Failed to fetch resource pack hash for {}", url, e);
+                return;
+            }
+
+            logger.info("Sending resource pack to player: {} ({}). Pack URL: {} ({})", player.getUsername(), player.getUuid(), url, hash);
+
             ResourcePackInfo packInfo = ResourcePackInfo.resourcePackInfo()
                     .id(UUID.randomUUID())
-                    .uri(URI.create("https://download.mc-packs.net/pack/8ed20a71a507e15f50a57f815b163b1f2654648a.zip"))
-                    .hash("8ed20a71a507e15f50a57f815b163b1f2654648a")
+                    .uri(URI.create(url))
+                    .hash(hash)
                     .build();
 
             ResourcePackRequest packRequest = ResourcePackRequest.resourcePackRequest()
